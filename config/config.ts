@@ -48,18 +48,6 @@ export default defineConfig({
           redirect: '/user/login',
         },
         {
-          name: 'register-result',
-          icon: 'smile',
-          path: '/user/register-result',
-          component: './user/register-result',
-        },
-        {
-          name: 'register',
-          icon: 'smile',
-          path: '/user/register',
-          component: './user/register',
-        },
-        {
           component: '404',
         },
       ],
@@ -69,6 +57,12 @@ export default defineConfig({
       name: 'dashboard',
       icon: 'dashboard',
       routes: [
+        {
+          name: 'workplace',
+          icon: 'smile',
+          path: '/dashboard/workplace',
+          component: './dashboard/workplace',
+        },
         {
           path: '/dashboard',
           redirect: '/dashboard/analysis',
@@ -84,13 +78,7 @@ export default defineConfig({
           icon: 'smile',
           path: '/dashboard/monitor',
           component: './dashboard/monitor',
-        },
-        {
-          name: 'workplace',
-          icon: 'smile',
-          path: '/dashboard/workplace',
-          component: './dashboard/workplace',
-        },
+        }
       ],
     },
     {
@@ -309,7 +297,7 @@ export default defineConfig({
     },
     {
       path: '/',
-      redirect: '/dashboard/analysis',
+      redirect: '/dashboard/workplace',
     },
     {
       component: '404',
@@ -317,7 +305,7 @@ export default defineConfig({
   ],
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
-    'primary-color': defaultSettings.primaryColor,
+    'primary-color': "#1DA57A",
   },
   // esbuild is father build tools
   // https://umijs.org/plugins/plugin-esbuild

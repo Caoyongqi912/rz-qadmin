@@ -44,13 +44,13 @@ export default {
     res.send({
       success: true,
       data: {
-        name: 'Serati Ma',
+        name: 'QY C',
         avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
         userid: '00000001',
-        email: 'antdesign@alipay.com',
+        email: 'yongqi.cao@doubei.com',
         signature: '海纳百川，有容乃大',
-        title: '交互专家',
-        group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
+        title: 'QATester',
+        group: 'tester',
         tags: [
           {
             key: '0',
@@ -118,12 +118,11 @@ export default {
     },
   ],
   'POST /api/login/account': async (req: Request, res: Response) => {
-    const { password, username, type } = req.body;
+    const { password, username } = req.body;
     await waitTime(2000);
     if (password === 'ant.design' && username === 'admin') {
       res.send({
         status: 'ok',
-        type,
         currentAuthority: 'admin',
       });
       access = 'admin';
@@ -132,28 +131,11 @@ export default {
     if (password === 'ant.design' && username === 'user') {
       res.send({
         status: 'ok',
-        type,
         currentAuthority: 'user',
       });
       access = 'user';
       return;
     }
-    if (type === 'mobile') {
-      res.send({
-        status: 'ok',
-        type,
-        currentAuthority: 'admin',
-      });
-      access = 'admin';
-      return;
-    }
-
-    res.send({
-      status: 'error',
-      type,
-      currentAuthority: 'guest',
-    });
-    access = 'guest';
   },
   'POST /api/login/outLogin': (req: Request, res: Response) => {
     access = '';
@@ -198,6 +180,5 @@ export default {
       path: '/base/category/list',
     });
   },
-
-  'GET  /api/login/captcha': getFakeCaptcha,
+  'GET /api/login/captcha': getFakeCaptcha,
 };

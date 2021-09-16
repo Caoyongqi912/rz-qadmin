@@ -6,6 +6,8 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import { BookOutlined, LinkOutlined } from '@ant-design/icons';
+import { RequestConfig } from 'umi';
+import { clearToken, getToken } from './utils/token';
 
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -17,6 +19,7 @@ export const initialStateConfig = {
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
+ * 生产和消费初始化数据。
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
@@ -76,8 +79,20 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         ]
       : [],
     menuHeaderRender: undefined,
-    // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
+    unAccessible: <div>unAccessible</div>,
     ...initialState?.settings,
   };
 };
+
+async function middleware(ctx: any, next: any) {
+  let token = getToken();
+  if (token) {
+    ctx.req.options.headers.Authorization = "Basic "+btoa(token+":"+"")
+  } else {
+    clearToken();
+  }    
+  await next();
+}
+export const request: RequestConfig = {
+  middlewares: [middleware]
+}

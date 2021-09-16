@@ -18,10 +18,12 @@ const Articles: React.FC = () => {
   );
 
   // 获取tab列表数据
-  const { data: listData } = useRequest(() => {
+  const {  data: listData } = useRequest(() => {
     return queryFakeList({
-      count: 30,
+      count: 2,
     });
+
+    
   });
   return (
     <List<ListItemDataType>

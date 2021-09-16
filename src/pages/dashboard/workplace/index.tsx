@@ -1,84 +1,67 @@
 import type { FC } from 'react';
-import { Avatar, Card, Col, List, Skeleton, Row, Statistic } from 'antd';
-import { Radar } from '@ant-design/charts';
-
-import { Link, useRequest } from 'umi';
+import { Avatar, Card, Col, List, Skeleton, Row } from 'antd';
+import { Link, useModel, useRequest } from 'umi';
 import { PageContainer } from '@ant-design/pro-layout';
 import moment from 'moment';
 import EditableLinkGroup from './components/EditableLinkGroup';
 import styles from './style.less';
-import type { ActivitiesType, CurrentUser } from './data.d';
-import { queryProjectNotice, queryActivities, fakeChartData } from './service';
+import type { ActivitiesType } from './data.d';
+import { queryProjectNotice, queryActivities } from './service';
 
+/**
+ * 便捷导航
+ */
 const links = [
   {
     title: '操作一',
     href: '',
-  },
-  {
-    title: '操作二',
-    href: '',
-  },
-  {
-    title: '操作三',
-    href: '',
-  },
-  {
-    title: '操作四',
-    href: '',
-  },
-  {
-    title: '操作五',
-    href: '',
-  },
-  {
-    title: '操作六',
-    href: '',
-  },
+  }
 ];
 
-const PageHeaderContent: FC<{ currentUser: Partial<CurrentUser> }> = ({ currentUser }) => {
+/**
+ * currentUserInfo
+ * @param param currentUserInfo
+ * @returns 
+ */
+const PageHeaderContent: FC<{ currentUser: API.CurrentUser | undefined }> = ({ currentUser }) => {
   const loading = currentUser && Object.keys(currentUser).length;
   if (!loading) {
     return <Skeleton avatar paragraph={{ rows: 1 }} active />;
   }
+  let src = currentUser.avatar
+  if (!src) {
+    src = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201705%2F27%2F20170527013032_GefHh.thumb.700_0.jpeg&refer=http%3A%2F%2Fb-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1634180782&t=ecc1f1ca7947fab9845ebdd33586c4de"
+  } 
   return (
     <div className={styles.pageHeaderContent}>
       <div className={styles.avatar}>
-        <Avatar size="large" src={currentUser.avatar} />
+
+        <Avatar size="large" src={src} />
       </div>
       <div className={styles.content}>
         <div className={styles.contentTitle}>
-          早安，
+          Hi，
           {currentUser.name}
           ，祝你开心每一天！
         </div>
         <div>
-          {currentUser.title} |{currentUser.group}
+          {currentUser.department} | {currentUser.department}
         </div>
       </div>
     </div>
   );
 };
 
-const ExtraContent: FC<Record<string, any>> = () => (
-  <div className={styles.extraContent}>
-    <div className={styles.statItem}>
-      <Statistic title="项目数" value={56} />
-    </div>
-    <div className={styles.statItem}>
-      <Statistic title="团队内排名" value={8} suffix="/ 24" />
-    </div>
-    <div className={styles.statItem}>
-      <Statistic title="项目访问" value={2223} />
-    </div>
-  </div>
-);
+/**
+ * Workplace
+ * @returns 
+ */
 
 const Workplace: FC = () => {
   const { loading: projectLoading, data: projectNotice = [] } = useRequest(queryProjectNotice);
   const { loading: activitiesLoading, data: activities = [] } = useRequest(queryActivities);
-  const { data } = useRequest(fakeChartData);
+  const { initialState } = useModel("@@initialState");
+  const user = initialState!.currentUser!
 
   const renderActivities = (item: ActivitiesType) => {
     const events = item.template.split(/@\{([^{}]*)\}/gi).map((key) => {
@@ -116,18 +99,9 @@ const Workplace: FC = () => {
     <PageContainer
       content={
         <PageHeaderContent
-          currentUser={{
-            avatar: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
-            name: '吴彦祖',
-            userid: '00000001',
-            email: 'antdesign@alipay.com',
-            signature: '海纳百川，有容乃大',
-            title: '交互专家',
-            group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
-          }}
+          currentUser={user}
         />
       }
-      extraContent={<ExtraContent />}
     >
       <Row gutter={24}>
         <Col xl={16} lg={24} md={24} sm={24} xs={24}>
@@ -188,31 +162,6 @@ const Workplace: FC = () => {
             bodyStyle={{ padding: 0 }}
           >
             <EditableLinkGroup onAdd={() => {}} links={links} linkElement={Link} />
-          </Card>
-          <Card
-            style={{ marginBottom: 24 }}
-            bordered={false}
-            title="XX 指数"
-            loading={data?.radarData?.length === 0}
-          >
-            <div className={styles.chart}>
-              <Radar
-                height={343}
-                data={data?.radarData || []}
-                angleField="label"
-                seriesField="name"
-                radiusField="value"
-                area={{
-                  visible: false,
-                }}
-                point={{
-                  visible: true,
-                }}
-                legend={{
-                  position: 'bottom-center',
-                }}
-              />
-            </div>
           </Card>
           <Card
             bodyStyle={{ paddingTop: 12, paddingBottom: 12 }}

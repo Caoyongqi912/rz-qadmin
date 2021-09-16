@@ -1,4 +1,4 @@
-@import '~antd/es/style/themes/default.less';
+@import "~antd/es/style/themes/default.less";
 
 .textOverflow() {
   overflow: hidden;
@@ -14,7 +14,7 @@
   &::before,
   &::after {
     display: table;
-    content: ' ';
+    content: " ";
   }
   &::after {
     clear: both;
@@ -38,6 +38,7 @@
   display: flex;
   .avatar {
     flex: 0 1 72px;
+
     & > span {
       display: block;
       width: 72px;
@@ -45,20 +46,20 @@
       border-radius: 72px;
     }
   }
-  .content {
-    position: relative;
-    top: 4px;
-    flex: 1 1 auto;
-    margin-left: 24px;
-    color: @text-color-secondary;
-    line-height: 22px;
-    .contentTitle {
-      margin-bottom: 12px;
-      color: @heading-color;
-      font-weight: 500;
-      font-size: 20px;
-      line-height: 28px;
-    }
+}
+.content {
+  position: relative;
+  top: 4px;
+  flex: 1 1 auto;
+  margin-left: 24px;
+  color: @text-color-secondary;
+  line-height: 22px;
+  .contentTitle {
+    margin-bottom: 12px;
+    color: @heading-color;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 28px;
   }
 }
 
@@ -94,7 +95,7 @@
       width: 1px;
       height: 40px;
       background-color: @border-color-split;
-      content: '';
+      content: "";
     }
     &:last-child {
       padding-right: 0;

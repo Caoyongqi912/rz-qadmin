@@ -4,12 +4,10 @@
 declare namespace API {
   type CurrentUser = {
     name?: string;
-    avatar?: string;
     userid?: string;
     email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
+    avatar?: string;
+    department?: string;
     tags?: { key?: string; label?: string }[];
     notifyCount?: number;
     unreadCount?: number;
@@ -23,11 +21,23 @@ declare namespace API {
     phone?: string;
   };
 
+  /**
+   * 登录返回
+   */
   type LoginResult = {
-    status?: string;
-    type?: string;
+    code?: number; 
+    data?: string;
+    msg?: string;
     currentAuthority?: string;
   };
+
+  type IResponse = {
+    code?: number;
+    data?: string;
+    msg?: string;
+  };
+
+
 
   type PageParams = {
     current?: number;
@@ -56,16 +66,10 @@ declare namespace API {
     success?: boolean;
   };
 
-  type FakeCaptcha = {
-    code?: number;
-    status?: string;
-  };
-
   type LoginParams = {
-    username?: string;
+    account?: string;
     password?: string;
     autoLogin?: boolean;
-    type?: string;
   };
 
   type ErrorResponse = {

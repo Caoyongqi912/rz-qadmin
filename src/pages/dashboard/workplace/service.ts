@@ -10,5 +10,5 @@ export async function queryActivities(): Promise<{ data: ActivitiesType[] }> {
 }
 
 export async function fakeChartData(): Promise<{ data: AnalysisData }> {
-  return request('/api/fake_workplace_chart_data');
+  return request('/api/chartData');
 }
